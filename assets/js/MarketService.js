@@ -16,8 +16,8 @@ export default class MarketService {
         db.on('populate', async () => {
             await db.tasks.bulkPut([
                 {description: 'Coca-Cola', done: false},
-                {description: 'Azeite', done: false},
-                {description: 'Laranja', done: false},
+                {description: 'Azeite', done: true},
+                {description: 'Laranja', done: true},
                 {description: 'Pão', done: false},
                 {description: 'Carne', done: false},
             ]);
