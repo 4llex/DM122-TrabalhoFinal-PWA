@@ -1,7 +1,9 @@
 import HtmlService from './HtmlService.js';
+import './MarketService.js';
 
 class App {
 
+  
   constructor() {
     this.registerServiceWorker();
     new HtmlService();
