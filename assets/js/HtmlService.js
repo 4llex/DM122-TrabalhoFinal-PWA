@@ -1,8 +1,11 @@
 export default class HtmlService {
 
-  constructor(){
+  constructor(marketService){
     console.log('Serviço HTML instanciado');
+    
+    this.marketService = marketService;
     this.bindFormEvent();
+    this.listTasks();
   }
   // constructor() {
   //   this.bindFormEvent();
@@ -16,4 +19,10 @@ export default class HtmlService {
       form.reset();
     })
   }
+
+  async listTasks(){
+    const tasks = await this.marketService.getAll();
+    console.log(tasks); 
+  }
+
 }

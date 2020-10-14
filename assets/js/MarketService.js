@@ -1,31 +1,32 @@
-const db = new Dexie('marketDB');
+let db;
 
-db.version(1).stores({
-    tasks: '++id, description, done'
-});
+export default class MarketService {
+    constructor(){
+        this.initializeDB();
+    }
 
+    initializeDB(){
+        db = new Dexie('marketDB');
 
-db.on('populate', async () => {
-    await db.tasks.bulkPut([
-        {description: 'Coca-Cola', done: false},
-        {description: 'Azeite', done: false},
-        {description: 'Laranja', done: false},
-        {description: 'Pão', done: false},
-        {description: 'Carne', done: false},
-    ]);
-});
+        db.version(1).stores({
+            tasks: '++id, description'
+        });
 
 
-async function list(){
-    db.tasks.each(task => console.log(task));
+        db.on('populate', async () => {
+            await db.tasks.bulkPut([
+                {description: 'Coca-Cola', done: false},
+                {description: 'Azeite', done: false},
+                {description: 'Laranja', done: false},
+                {description: 'Pão', done: false},
+                {description: 'Carne', done: false},
+            ]);
+        });
 
-    const taskTypeScript = await db.tasks.get(2);
-    taskTypeScript.done = true;
-    db.tasks.put(taskTypeScript);
+    }
 
-    const tasksDone = await db.tasks    
-        .where('description').equals('Carne').first();
-    console.log('Query', tasksDone);
+    getAll() {
+        return db.tasks.toArray();
+    }
+
 }
-
-list();

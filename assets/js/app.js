@@ -1,12 +1,17 @@
 import HtmlService from './HtmlService.js';
-import './MarketService.js';
+import MarketService from './MarketService.js';
 
 class App {
 
   
   constructor() {
     this.registerServiceWorker();
-    new HtmlService();
+    this.start();
+  }
+
+  start(){
+    const marketService = new MarketService();
+    new HtmlService(marketService);
   }
 
   registerServiceWorker() {
