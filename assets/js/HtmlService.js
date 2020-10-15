@@ -1,3 +1,5 @@
+const DONE = 'done';
+
 export default class HtmlService {
 
   constructor(marketService){
@@ -25,6 +27,20 @@ export default class HtmlService {
     tasks.forEach(task => this.addToHtmlList(task)); 
   }
 
+  async saveTask(taskId, isDone){
+    const task = await this.marketService.get(taskId);
+    task.done = isDone;
+    this.marketService.save(task);
+  }
+
+  toggleTask(li){
+    const taskId = +li.getAttribute('data-item-id');
+    li.classList.toggle(DONE);
+    const isDone = li.classList.contains(DONE);
+    // Salvar info
+    this.saveTask(taskId, isDone);
+  }
+
   addToHtmlList(task){
     const ul = document.querySelector('ul');
     const li = document.createElement('li');
@@ -32,11 +48,14 @@ export default class HtmlService {
     const button = document.createElement('button');
 
     li.setAttribute('data-item-id', task.id);
+    li.addEventListener('click', () => this.toggleTask(li));
+
     span.textContent = task.description;
+
     button.textContent = 'x';
 
     if(task.done){
-      li.classList.add('done');
+      li.classList.add(DONE);
     }
 
     li.appendChild(span);
