@@ -38,7 +38,7 @@ export default class MarketService {
     }
 
     delete(id){
-        return db.tasks.delete(task);
+        return db.tasks.delete(id);
     }
 
 }
